@@ -100,7 +100,7 @@ namespace Portal_MinimalApi.Data
       }
     }
 
-    public async Task<Articles> GetArticlesById(int articleId)
+    public async Task<Articles> GetArticleById(int articleId)
     {
       try
       {

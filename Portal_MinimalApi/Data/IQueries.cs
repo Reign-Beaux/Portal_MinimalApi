@@ -7,6 +7,6 @@ namespace Portal_MinimalApi.Data
     Task<List<ReferenceSites>> GetReferenceSites();
     Task<List<Themes>> GetThemes(int referenceSiteId);
     Task<List<Articles>> GetArticles(int themeId);
-    Task<Articles> GetArticlesById(int articleId);
+    Task<Articles> GetArticleById(int articleId);
   }
 }
