@@ -1,4 +1,5 @@
-﻿using Portal_MinimalApi.Models;
+﻿using Portal_MinimalApi.DTOs;
+using Portal_MinimalApi.Models;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -9,22 +10,34 @@ namespace Portal_MinimalApi.Data
     public Queries(IConfiguration configuration) : base(configuration)
     { }
 
-    public async Task<List<ReferenceSites>> GetReferenceSites()
+    public async Task<List<CollapseDTO>> GetReferenceSites()
     {
       try
       {
         DataTable dataTable;
-        List<ReferenceSites> sites = new();
+        List<CollapseDTO> sites = new();
         dataTable = await ExecuteQuery("[dbo].[ReferenceSites_GET]", new List<SqlParameter>());
         foreach (DataRow row in dataTable.Rows)
         {
-          sites.Add(new ReferenceSites()
+          var themes = await GetThemes(Convert.ToInt32(row["Id"]));
+          List<CollapseData> datas = new();
+          foreach (var theme in themes)
+          {
+            datas.Add(new CollapseData()
+            {
+              Id = theme.Id,
+              Text = theme.Title
+            });
+          }
+
+          sites.Add(new CollapseDTO()
           {
             Id = Convert.ToInt32(row["Id"]),
-            Name = Convert.ToString(row["Name"]),
-            Url = Convert.ToString(row["Url"]),
+            Text = Convert.ToString(row["Name"]),
+            Datas = datas,
           });
         }
+
         return sites;
       }
       catch (Exception ex)

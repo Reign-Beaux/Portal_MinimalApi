@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Portal_MinimalApi.Models
+﻿namespace Portal_MinimalApi.Models
 {
   public class ReferenceSites : GenericModel
   {
